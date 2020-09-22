@@ -35,10 +35,6 @@ class ViewController: UIViewController {
         
         view.backgroundColor = .white
         
-        cardView = CardView(origin: CGPoint(x: 16, y: 16), width: view.bounds.width - 32)
-        
-        view.addSubview(cardView)
-        
         expirationDatePicker.dataSource = self
         expirationDatePicker.delegate = self
         
@@ -56,6 +52,13 @@ class ViewController: UIViewController {
         cardNumberTextField.backgroundColor = .lightGray
         cardHolderNameTextField.backgroundColor = .lightGray
         cvvTextField.backgroundColor = .lightGray
+    }
+    
+    override func viewSafeAreaInsetsDidChange() {
+        if cardView == nil {
+            cardView = CardView(origin: CGPoint(x: 16, y: view.safeAreaInsets.top + 16), width: view.bounds.width - 32)
+            view.addSubview(cardView)
+        }
     }
     
     @objc
