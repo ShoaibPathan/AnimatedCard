@@ -259,11 +259,11 @@ class FrontCardView: UIView {
         let temp = "\(num)\(stars)"
         var number = ""
         
-        for i in 1...temp.count {
-            if i % 5 == 0 {
+        for i in 0..<temp.count {
+            if i % 4 == 0 && i != 0 {
                 number += " "
             }
-            number += String(temp[temp.index(temp.startIndex, offsetBy: i - 1)])
+            number += String(temp[temp.index(temp.startIndex, offsetBy: i)])
         }
         
         return number
