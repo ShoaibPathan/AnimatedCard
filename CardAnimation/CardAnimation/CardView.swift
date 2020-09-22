@@ -184,14 +184,17 @@ class BackCardView: UIView {
         
         if cvv.count > 4 {
             return String(cvv.dropLast(cvv.count - 4))
-        } else {
+        } else if cvv.count < 3 {
             var str = cvv
-            for _ in 0..<4 - str.count {
+            
+            for _ in 0..<3 - str.count {
                 str += "*"
             }
             
             return str
         }
+        
+        return cvv
     }
     
     // MARK: - BackCardView: Public Functions
