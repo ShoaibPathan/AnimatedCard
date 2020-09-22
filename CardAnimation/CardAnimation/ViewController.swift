@@ -81,12 +81,20 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == cvvTextField {
+            cardView.flipCard()
+        }
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
     }
     
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        return true
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == cvvTextField {
+            cardView.flipCard()
+        }
     }
 }
 
