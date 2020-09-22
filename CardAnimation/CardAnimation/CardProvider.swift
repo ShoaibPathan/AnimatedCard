@@ -29,6 +29,21 @@ enum CardProvider: String {
         }
     }
     
+    var value: Int {
+        switch self {
+        case .americanExpress:
+            return 3
+        case .visa:
+            return 4
+        case .masterCard:
+            return 5
+        case .discover:
+            return 6
+        default:
+            return -1
+        }
+    }
+    
     var image: UIImage? {
         return UIImage(named: rawValue)
     }

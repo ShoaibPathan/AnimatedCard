@@ -20,8 +20,9 @@ class CardView: UIView {
     }
     var monoFont: UIFont? {
         didSet {
-            front.font = monoFont
-            back.font = monoFont
+            guard let font = monoFont else { return }
+            front.font = font
+            back.font = font
         }
     }
     
@@ -74,7 +75,9 @@ class CardView: UIView {
     private func setup() {
         update()
         
-        monoFont = .monospacedSystemFont(ofSize: 10, weight: .black)
+        updateCard()
+        
+        monoFont = .monospacedSystemFont(ofSize: frame.width / 19, weight: .black)
         
         addSubview(front)
         addSubview(back)
@@ -84,6 +87,9 @@ class CardView: UIView {
     }
     
     private func updateCard() {
+        front.backgroundColor = cardProvider.color
+        back.backgroundColor = cardProvider.color
+        front.setImage(cardProvider.image)
         
     }
     
@@ -115,6 +121,10 @@ class CardView: UIView {
     
     // Update card information
     func update(cardNumber: String = "", expirationDate: Date = .default, nameOnCard: String = "", cvv: String = "") {
+        if cardNumber.count > 0, let val = Int(String(cardNumber[cardNumber.startIndex])), val != cardProvider.value {
+            cardProvider = CardProvider(val: val)
+        }
+        
         front.update(num: cardNumber, exp: expirationDate, name: nameOnCard)
         back.update(cvv: cvv)
     }
@@ -128,7 +138,7 @@ class BackCardView: UIView {
     
     private var CVVLabel = UILabel()
     var spacing: CGFloat {
-        bounds.width / 12
+        bounds.width / 18
     }
     
     var font: UIFont? {
@@ -155,7 +165,7 @@ class BackCardView: UIView {
     // MARK: - BackCardView: Private Functions
     
     private func setup() {
-        let spacing = bounds.width / 12
+        layer.cornerRadius = 16
         
         CVVLabel.textAlignment = .right
         CVVLabel.frame = CGRect(x: spacing, y: bounds.height / 2 - CVVLabel.font.lineHeight / 2, width: bounds.width - spacing * 2, height: CVVLabel.font.lineHeight)
@@ -191,9 +201,10 @@ class FrontCardView: UIView {
     private var numberLabel = UILabel()
     private var nameLabel = UILabel()
     private var expirationLabel = UILabel()
+    private var providerImageView = UIImageView()
     
     var spacing: CGFloat {
-        bounds.width / 12
+        bounds.width / 18
     }
     
     var font: UIFont? {
@@ -223,15 +234,24 @@ class FrontCardView: UIView {
     
     // Set subview's frames and add to view hierarchy
     private func setup() {
+        layer.cornerRadius = 16
+        
         let width = bounds.width - spacing * 2
         
         numberLabel.frame = CGRect(x: spacing, y: bounds.height / 2 - numberLabel.font.lineHeight / 2, width: width, height: numberLabel.font.lineHeight)
         expirationLabel.frame = CGRect(x: spacing, y: numberLabel.frame.maxY + spacing, width: width, height: expirationLabel.font.lineHeight)
         nameLabel.frame = CGRect(x: spacing, y: expirationLabel.frame.maxY + spacing, width: width, height: nameLabel.font.lineHeight)
         
+        let ratio: CGFloat = 0.2
+        let imageWidth = frame.width * ratio
+        
+        providerImageView.frame = CGRect(x: frame.width - imageWidth - spacing, y: spacing, width: imageWidth, height: frame.height * ratio)
+        providerImageView.contentMode = .scaleAspectFill
+        
         addSubview(numberLabel)
         addSubview(expirationLabel)
         addSubview(nameLabel)
+        addSubview(providerImageView)
     }
     
     private func format(num: String) -> String {
@@ -274,5 +294,9 @@ class FrontCardView: UIView {
         numberLabel.text = format(num: num)
         expirationLabel.text = format(exp: exp)
         nameLabel.text = format(name: name)
+    }
+    
+    func setImage(_ image: UIImage?) {
+        providerImageView.image = image
     }
 }
