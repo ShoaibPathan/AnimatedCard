@@ -16,6 +16,7 @@
 		4960584E25192BAE0029BAA2 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4960584D25192BAE0029BAA2 /* CardView.swift */; };
 		4960585225194ACB0029BAA2 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4960585125194ACB0029BAA2 /* Helpers.swift */; };
 		49605855251965FB0029BAA2 /* CardProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49605854251965FB0029BAA2 /* CardProvider.swift */; };
+		4960585F2519A8590029BAA2 /* Month.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4960585E2519A8590029BAA2 /* Month.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		4960584D25192BAE0029BAA2 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		4960585125194ACB0029BAA2 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		49605854251965FB0029BAA2 /* CardProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardProvider.swift; sourceTree = "<group>"; };
+		4960585E2519A8590029BAA2 /* Month.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Month.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +67,7 @@
 				4960583825192AC30029BAA2 /* AppDelegate.swift */,
 				4960583A25192AC30029BAA2 /* SceneDelegate.swift */,
 				4960583C25192AC30029BAA2 /* ViewController.swift */,
+				4960585E2519A8590029BAA2 /* Month.swift */,
 				4960584D25192BAE0029BAA2 /* CardView.swift */,
 				49605854251965FB0029BAA2 /* CardProvider.swift */,
 				4960583E25192AC30029BAA2 /* Main.storyboard */,
@@ -148,6 +151,7 @@
 			files = (
 				4960583D25192AC30029BAA2 /* ViewController.swift in Sources */,
 				4960583925192AC30029BAA2 /* AppDelegate.swift in Sources */,
+				4960585F2519A8590029BAA2 /* Month.swift in Sources */,
 				4960584E25192BAE0029BAA2 /* CardView.swift in Sources */,
 				4960585225194ACB0029BAA2 /* Helpers.swift in Sources */,
 				4960583B25192AC30029BAA2 /* SceneDelegate.swift in Sources */,

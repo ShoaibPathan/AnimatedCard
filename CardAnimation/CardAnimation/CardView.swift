@@ -120,9 +120,11 @@ class CardView: UIView {
     }
     
     // Update card information
-    func update(cardNumber: String = "", expirationDate: Date = .default, nameOnCard: String = "", cvv: String = "") {
-        if cardNumber.count > 0, let val = Int(String(cardNumber[cardNumber.startIndex])), val != cardProvider.value {
+    func update(cardNumber: String? = nil, expirationDate: Date = .default, nameOnCard: String? = nil, cvv: String? = nil) {
+        if let cardNumber = cardNumber, cardNumber.count > 0, let val = Int(String(cardNumber[cardNumber.startIndex])), val != cardProvider.value {
             cardProvider = CardProvider(val: val)
+        } else if let cardNumber = cardNumber, cardNumber.isEmpty {
+            cardProvider = .none
         }
         
         front.update(num: cardNumber, exp: expirationDate, name: nameOnCard)
@@ -171,24 +173,33 @@ class BackCardView: UIView {
         CVVLabel.frame = CGRect(x: spacing, y: bounds.height / 2 - CVVLabel.font.lineHeight / 2, width: bounds.width - spacing * 2, height: CVVLabel.font.lineHeight)
         
         addSubview(CVVLabel)
+        
+        CVVLabel.text = format(cvv: "")
     }
     
     private func format(cvv: String) -> String {
         guard let int = Int(cvv), int >= 0 else {
-            return "333"
+            return "***"
         }
         
         if cvv.count > 4 {
             return String(cvv.dropLast(cvv.count - 4))
+        } else {
+            var str = cvv
+            for _ in 0..<4 - str.count {
+                str += "*"
+            }
+            
+            return str
         }
-        
-        return cvv
     }
     
     // MARK: - BackCardView: Public Functions
     
-    func update(cvv: String = "") {
-        CVVLabel.text = format(cvv: cvv)
+    func update(cvv: String? = nil) {
+        if let cvv = cvv {
+            CVVLabel.text = format(cvv: cvv)
+        }
     }
 }
 
@@ -239,7 +250,9 @@ class FrontCardView: UIView {
         let width = bounds.width - spacing * 2
         
         numberLabel.frame = CGRect(x: spacing, y: bounds.height / 2 - numberLabel.font.lineHeight / 2, width: width, height: numberLabel.font.lineHeight)
+        
         expirationLabel.frame = CGRect(x: spacing, y: numberLabel.frame.maxY + spacing, width: width, height: expirationLabel.font.lineHeight)
+        
         nameLabel.frame = CGRect(x: spacing, y: expirationLabel.frame.maxY + spacing, width: width, height: nameLabel.font.lineHeight)
         
         let ratio: CGFloat = 0.2
@@ -252,9 +265,19 @@ class FrontCardView: UIView {
         addSubview(expirationLabel)
         addSubview(nameLabel)
         addSubview(providerImageView)
+        
+        numberLabel.text = format(str: "")
+        expirationLabel.text = format(exp: .default)
+        nameLabel.text = format(name: "")
     }
     
-    private func format(num: String) -> String {
+    private func format(str: String) -> String {
+        var num = str
+        
+        if num.count > 16 {
+            num = String(str.dropLast(num.count - 16))
+        }
+        
         let stars = String(repeating: "*", count: 16 - num.count)
         let temp = "\(num)\(stars)"
         var number = ""
@@ -275,7 +298,7 @@ class FrontCardView: UIView {
         }
         
         let df = DateFormatter()
-        df.dateFormat = "MM/dd"
+        df.dateFormat = "MM/yy"
         
         return df.string(from: exp)
     }
@@ -290,10 +313,18 @@ class FrontCardView: UIView {
     
     // MARK: - FrontCardView: Public Functions
     
-    func update(num: String = "", exp: Date = .default, name: String = "") {
-        numberLabel.text = format(num: num)
-        expirationLabel.text = format(exp: exp)
-        nameLabel.text = format(name: name)
+    func update(num: String? = nil, exp: Date = .default, name: String? = nil) {
+        if let num = num {
+            numberLabel.text = format(str: num)
+        }
+        
+        if exp != .default {
+            expirationLabel.text = format(exp: exp)
+        }
+        
+        if let name = name {
+            nameLabel.text = format(name: name)
+        }
     }
     
     func setImage(_ image: UIImage?) {

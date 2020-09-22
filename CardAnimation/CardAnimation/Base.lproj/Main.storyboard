@@ -16,25 +16,53 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cRX-xO-Opj">
-                                <rect key="frame" x="192" y="732" width="30" height="30"/>
-                                <state key="normal" title="Flip"/>
-                                <connections>
-                                    <action selector="flip:" destination="BYZ-38-t0r" eventType="touchUpInside" id="VAG-o4-cUL"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Ymd-VM-Q1V">
+                                <rect key="frame" x="16" y="546" width="382" height="316"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Card Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3D6-Mn-hdM">
+                                        <rect key="frame" x="0.0" y="0.0" width="382" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="26" translatesAutoresizingMaskIntoConstraints="NO" id="g3O-BM-XQG">
+                                        <rect key="frame" x="0.0" y="50" width="382" height="34"/>
+                                        <subviews>
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Card Holder Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ypw-TS-EXU">
+                                                <rect key="frame" x="0.0" y="0.0" width="299.5" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="CVV" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="P26-WK-41b">
+                                                <rect key="frame" x="325.5" y="0.0" width="56.5" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
+                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EKl-Ta-RtQ">
+                                        <rect key="frame" x="0.0" y="100" width="382" height="216"/>
+                                    </pickerView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="cRX-xO-Opj" secondAttribute="bottom" constant="100" id="JuQ-7S-KgD"/>
-                            <constraint firstItem="cRX-xO-Opj" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="R6h-9J-Wf5"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Ymd-VM-Q1V" secondAttribute="trailing" constant="16" id="A4K-w0-0gY"/>
+                            <constraint firstItem="Ymd-VM-Q1V" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="heb-N7-SUd"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Ymd-VM-Q1V" secondAttribute="bottom" id="xeK-mv-lNw"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="cardHolderNameTextField" destination="ypw-TS-EXU" id="4db-KU-wSd"/>
+                        <outlet property="cardNumberTextField" destination="3D6-Mn-hdM" id="oPM-kP-bHL"/>
+                        <outlet property="cvvTextField" destination="P26-WK-41b" id="weU-OW-qCt"/>
+                        <outlet property="expirationDatePicker" destination="EKl-Ta-RtQ" id="LqG-iH-4IX"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="139" y="80"/>
+            <point key="canvasLocation" x="137.68115942028987" y="79.6875"/>
         </scene>
     </scenes>
     <resources>
