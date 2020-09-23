@@ -13,12 +13,28 @@ class CardView: UIView {
     
     // MARK: - CardView: Variables
     
-    var cardProvider: CardProvider = .none {
+    var cardNumber: String {
+        front.getCardNumber()
+    }
+    
+    var expiration: Date {
+        front.getExpiration()
+    }
+    
+    var cvv: String {
+        back.getCVV()
+    }
+    
+    var cardProvider: CardProvider {
+        return provider
+    }
+    
+    private var provider: CardProvider = .none {
         didSet {
             updateCard()
         }
     }
-    var monoFont: UIFont? {
+    private var monoFont: UIFont? {
         didSet {
             guard let font = monoFont else { return }
             front.font = font
@@ -122,9 +138,9 @@ class CardView: UIView {
     // Update card information
     func update(cardNumber: String? = nil, expirationDate: Date = .default, nameOnCard: String? = nil, cvv: String? = nil) {
         if let cardNumber = cardNumber, cardNumber.count > 0, let val = Int(String(cardNumber[cardNumber.startIndex])), val != cardProvider.value {
-            cardProvider = CardProvider(val: val)
+            provider = CardProvider(val: val)
         } else if let cardNumber = cardNumber, cardNumber.isEmpty {
-            cardProvider = .none
+            provider = .none
         }
         
         front.update(num: cardNumber, exp: expirationDate, name: nameOnCard)
@@ -138,16 +154,23 @@ class BackCardView: UIView {
     
     // MARK: - BackCardView: Variables
     
-    private var CVVLabel = UILabel()
-    var spacing: CGFloat {
-        bounds.width / 18
-    }
-    
     var font: UIFont? {
         didSet {
             guard let font = font else { return }
             CVVLabel.font = font
         }
+    }
+    
+    private var cvv: String = "" {
+        didSet {
+            CVVLabel.text = format(cvv: cvv)
+        }
+    }
+    
+    private var CVVLabel = UILabel()
+    
+    private var spacing: CGFloat {
+        bounds.width / 18
     }
     
     // MARK: - BackCardView: Initializers
@@ -204,6 +227,10 @@ class BackCardView: UIView {
             CVVLabel.text = format(cvv: cvv)
         }
     }
+    
+    func getCVV() -> String {
+        return cvv
+    }
 }
 
 // MARK: - FrontCardView
@@ -216,6 +243,24 @@ class FrontCardView: UIView {
     private var nameLabel = UILabel()
     private var expirationLabel = UILabel()
     private var providerImageView = UIImageView()
+    
+    private var cardNum: String = "" {
+        didSet {
+            numberLabel.text = format(number: cardNum)
+        }
+    }
+    
+    private var name: String = "" {
+        didSet {
+            nameLabel.text = format(name: name)
+        }
+    }
+    
+    private var exp: Date = .default {
+        didSet {
+            expirationLabel.text = format(exp: exp)
+        }
+    }
     
     var spacing: CGFloat {
         bounds.width / 18
@@ -269,16 +314,16 @@ class FrontCardView: UIView {
         addSubview(nameLabel)
         addSubview(providerImageView)
         
-        numberLabel.text = format(str: "")
+        numberLabel.text = format(number: "")
         expirationLabel.text = format(exp: .default)
         nameLabel.text = format(name: "")
     }
     
-    private func format(str: String) -> String {
-        var num = str
+    private func format(number: String) -> String {
+        var num = number
         
         if num.count > 16 {
-            num = String(str.dropLast(num.count - 16))
+            num = String(number.dropLast(number.count - 16))
         }
         
         let stars = String(repeating: "*", count: 16 - num.count)
@@ -318,19 +363,31 @@ class FrontCardView: UIView {
     
     func update(num: String? = nil, exp: Date = .default, name: String? = nil) {
         if let num = num {
-            numberLabel.text = format(str: num)
+            self.cardNum = num
         }
         
         if exp != .default {
-            expirationLabel.text = format(exp: exp)
+            self.exp = exp
         }
         
         if let name = name {
-            nameLabel.text = format(name: name)
+            self.name = name
         }
     }
     
     func setImage(_ image: UIImage?) {
         providerImageView.image = image
+    }
+    
+    func getName() -> String {
+        return name
+    }
+    
+    func getExpiration() -> Date {
+        return exp
+    }
+    
+    func getCardNumber() -> String {
+        return cardNum
     }
 }

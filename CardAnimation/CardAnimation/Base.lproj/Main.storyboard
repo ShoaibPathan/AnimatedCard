@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Ymd-VM-Q1V">
-                                <rect key="frame" x="16" y="546" width="382" height="316"/>
+                                <rect key="frame" x="16" y="567" width="382" height="279"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Card Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3D6-Mn-hdM">
                                         <rect key="frame" x="0.0" y="0.0" width="382" height="34"/>
@@ -40,7 +40,7 @@
                                         </subviews>
                                     </stackView>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EKl-Ta-RtQ">
-                                        <rect key="frame" x="0.0" y="100" width="382" height="216"/>
+                                        <rect key="frame" x="0.0" y="100" width="382" height="179"/>
                                     </pickerView>
                                 </subviews>
                             </stackView>
@@ -49,8 +49,9 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Ymd-VM-Q1V" secondAttribute="trailing" constant="16" id="A4K-w0-0gY"/>
+                            <constraint firstItem="EKl-Ta-RtQ" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.2" id="W5w-mT-SYT"/>
                             <constraint firstItem="Ymd-VM-Q1V" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="heb-N7-SUd"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Ymd-VM-Q1V" secondAttribute="bottom" id="xeK-mv-lNw"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Ymd-VM-Q1V" secondAttribute="bottom" constant="16" id="xeK-mv-lNw"/>
                         </constraints>
                     </view>
                     <connections>
