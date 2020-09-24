@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var cardNumberTextField: UITextField!
     @IBOutlet weak var cardHolderNameTextField: UITextField!
     @IBOutlet weak var cvvTextField: UITextField!
-    @IBOutlet weak var expirationDatePicker: UIPickerView!
+    @IBOutlet weak var expirationDatePicker: CustomDatePicker!
     
     required init?(coder: NSCoder) {
         let now = Date()
@@ -35,8 +35,7 @@ class ViewController: UIViewController {
         
         view.backgroundColor = .white
         
-        expirationDatePicker.dataSource = self
-        expirationDatePicker.delegate = self
+        expirationDatePicker.newDelegate = self
         
         expirationDatePicker.selectRow(month - 1, inComponent: 0, animated: false)
         expirationDatePicker.selectRow(500, inComponent: 1, animated: false)
@@ -101,35 +100,8 @@ extension ViewController: UITextFieldDelegate {
     }
 }
 
-extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        2
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if component == 0 {
-            return 12
-        } else {
-            return 1000
-        }
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
-        38
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        let text = component == 0 ? Month(rawValue: row).string : String(year - 500 + row)
-        
-        return NSAttributedString(string: text, attributes: [NSAttributedString.Key.foregroundColor : UIColor.black])
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        var dateComponents = DateComponents()
-        dateComponents.month = pickerView.selectedRow(inComponent: 0) + 1
-        dateComponents.year = year + pickerView.selectedRow(inComponent: 1) - 500
-        
-        cardView.update(expirationDate: Calendar.current.date(from: dateComponents)!)
+extension ViewController: CustomDatePickerDelegate {
+    func selectionChanged(_ newDate: Date) {
+        cardView.update(expirationDate: newDate)
     }
 }
-

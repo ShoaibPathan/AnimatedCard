@@ -39,7 +39,7 @@
                                             </textField>
                                         </subviews>
                                     </stackView>
-                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EKl-Ta-RtQ">
+                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EKl-Ta-RtQ" customClass="CustomDatePicker" customModule="CardAnimation" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="100" width="382" height="179"/>
                                     </pickerView>
                                 </subviews>
