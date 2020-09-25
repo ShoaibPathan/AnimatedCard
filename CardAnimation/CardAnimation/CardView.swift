@@ -9,6 +9,7 @@ import UIKit
 
 // MARK: - CardView
 
+@IBDesignable
 class CardView: UIView {
     
     // MARK: - CardView: Variables
@@ -45,29 +46,36 @@ class CardView: UIView {
     private var isFlipped = false
     private var duration: Double = 0.5
     
-    private var front: FrontCardView
-    private var back: BackCardView
+    private var front: FrontCardView!
+    private var back: BackCardView!
+    
+    override var frame: CGRect {
+        didSet {
+            updateFrame()
+        }
+    }
+    
+    override var bounds: CGRect {
+        didSet {
+            updateFrame()
+        }
+    }
     
     // MARK: - CardView: Initializers
     
-    init(origin: CGPoint, height: CGFloat) {
-        let frame = CGRect(origin: origin, size: CGSize(width: 1.586 * height, height: height))
-        let bounds = CGRect(origin: .zero, size: frame.size)
-        
-        front = FrontCardView(frame: bounds)
-        back = BackCardView(frame: bounds)
-        
-        super.init(frame: frame)
-        
-        setup()
+    convenience init(origin: CGPoint, height: CGFloat) {
+        self.init(frame: CGRect(origin: origin, size: CGSize(width: 1.586 * height, height: height)))
     }
     
-    init(origin: CGPoint, width: CGFloat) {
-        let frame = CGRect(origin: origin, size: CGSize(width: width, height: width / 1.586))
-        let bounds = CGRect(origin: .zero, size: frame.size)
+    convenience init(origin: CGPoint, width: CGFloat) {
+        self.init(frame: CGRect(origin: origin, size: CGSize(width: width, height: width / 1.586)))
+    }
+    
+    private override init(frame: CGRect) {
+        let tempFrame = CGRect(origin: .zero, size: frame.size)
         
-        front = FrontCardView(frame: bounds)
-        back = BackCardView(frame: bounds)
+        front = FrontCardView(frame: tempFrame)
+        back = BackCardView(frame: tempFrame)
         
         super.init(frame: frame)
         
@@ -75,12 +83,9 @@ class CardView: UIView {
     }
     
     required init?(coder: NSCoder) {
-        guard let tempFront = FrontCardView(coder: coder),
-              let tempBack = BackCardView(coder: coder) else { return nil }
+        front = FrontCardView(frame: .zero)
+        back = BackCardView(frame: .zero)
         
-        front = tempFront
-        back = tempBack
-
         super.init(coder: coder)
 
         setup()
@@ -90,8 +95,8 @@ class CardView: UIView {
     
     private func setup() {
         update()
-        
         updateCard()
+        updateFrame()
         
         monoFont = .monospacedSystemFont(ofSize: frame.width / 19, weight: .black)
         
@@ -99,7 +104,7 @@ class CardView: UIView {
         addSubview(back)
         
         let viewToHide = isFlipped ? front : back
-        viewToHide.isHidden = true
+        viewToHide?.isHidden = true
     }
     
     private func updateCard() {
@@ -107,6 +112,17 @@ class CardView: UIView {
         back.backgroundColor = cardProvider.color
         front.setImage(cardProvider.image)
         
+    }
+    
+    private func updateFrame() {
+        // Create frame for card subviews based on smaller dimension of card to maintain aspect ratio
+        let newBounds = CGRect(origin: .zero, size: frame.width > frame.height ? CGSize(width: 1.586 * frame.height, height: frame.height) : CGSize(width: frame.width, height: frame.width / 1.586))
+        
+        front.frame = newBounds
+        back.frame = newBounds
+        
+        front.updateFrames()
+        back.updateFrames()
     }
     
     // MARK: - CardView: Public Functions
@@ -187,21 +203,34 @@ class BackCardView: UIView {
         setup()
     }
     
+    override func draw(_ rect: CGRect) {
+        guard let context = UIGraphicsGetCurrentContext() else { return }
+        
+        context.setFillColor(UIColor.black.cgColor)
+        context.fill(CGRect(x: 0, y: rect.minY + rect.height / 8, width: rect.width, height: rect.height / 5))
+    }
+    
     // MARK: - BackCardView: Private Functions
     
     private func setup() {
         layer.cornerRadius = 16
+        layer.masksToBounds = true
+        
+        updateFrames()
         
         CVVLabel.textAlignment = .right
-        CVVLabel.frame = CGRect(x: spacing, y: bounds.height / 2 - CVVLabel.font.lineHeight / 2, width: bounds.width - spacing * 2, height: CVVLabel.font.lineHeight)
         
         addSubview(CVVLabel)
         
         CVVLabel.text = format(cvv: "")
     }
     
+    func updateFrames() {
+        CVVLabel.frame = CGRect(x: spacing, y: bounds.height / 2 - CVVLabel.font.lineHeight / 2, width: bounds.width - spacing * 2, height: CVVLabel.font.lineHeight)
+    }
+    
     private func format(cvv: String) -> String {
-        guard let int = Int(cvv), int >= 0 else {
+        guard let int = Int(cvv), int > 0 else {
             return "***"
         }
         
@@ -295,6 +324,21 @@ class FrontCardView: UIView {
     private func setup() {
         layer.cornerRadius = 16
         
+        updateFrames()
+        
+        providerImageView.contentMode = .scaleAspectFit
+        
+        addSubview(numberLabel)
+        addSubview(expirationLabel)
+        addSubview(nameLabel)
+        addSubview(providerImageView)
+        
+        numberLabel.text = format(number: "")
+        expirationLabel.text = format(exp: .default)
+        nameLabel.text = format(name: "")
+    }
+    
+    func updateFrames() {
         let width = bounds.width - spacing * 2
         
         numberLabel.frame = CGRect(x: spacing, y: bounds.height / 2 - numberLabel.font.lineHeight / 2, width: width, height: numberLabel.font.lineHeight)
@@ -307,16 +351,6 @@ class FrontCardView: UIView {
         let imageWidth = frame.width * ratio
         
         providerImageView.frame = CGRect(x: frame.width - imageWidth - spacing, y: spacing, width: imageWidth, height: frame.height * ratio)
-        providerImageView.contentMode = .scaleAspectFill
-        
-        addSubview(numberLabel)
-        addSubview(expirationLabel)
-        addSubview(nameLabel)
-        addSubview(providerImageView)
-        
-        numberLabel.text = format(number: "")
-        expirationLabel.text = format(exp: .default)
-        nameLabel.text = format(name: "")
     }
     
     private func format(number: String) -> String {

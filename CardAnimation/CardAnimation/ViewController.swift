@@ -8,14 +8,14 @@
 import UIKit
 
 class ViewController: UIViewController {
-    var cardView: CardView!
     let year: Int
     let month: Int
 
+    @IBOutlet weak var cardView: CardView!
     @IBOutlet weak var cardNumberTextField: UITextField!
     @IBOutlet weak var cardHolderNameTextField: UITextField!
     @IBOutlet weak var cvvTextField: UITextField!
-    @IBOutlet weak var expirationDatePicker: CustomDatePicker!
+    @IBOutlet weak var expirationDatePicker: CurrentDatePickerView!
     
     required init?(coder: NSCoder) {
         let now = Date()
@@ -51,13 +51,6 @@ class ViewController: UIViewController {
         cardNumberTextField.backgroundColor = .lightGray
         cardHolderNameTextField.backgroundColor = .lightGray
         cvvTextField.backgroundColor = .lightGray
-    }
-    
-    override func viewSafeAreaInsetsDidChange() {
-        if cardView == nil {
-            cardView = CardView(origin: CGPoint(x: 16, y: view.safeAreaInsets.top + 16), width: view.bounds.width - 32)
-            view.addSubview(cardView)
-        }
     }
     
     @objc
@@ -100,7 +93,7 @@ extension ViewController: UITextFieldDelegate {
     }
 }
 
-extension ViewController: CustomDatePickerDelegate {
+extension ViewController: CurrentDatePickerViewDelegate {
     func selectionChanged(_ newDate: Date) {
         cardView.update(expirationDate: newDate)
     }

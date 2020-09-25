@@ -39,24 +39,35 @@
                                             </textField>
                                         </subviews>
                                     </stackView>
-                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EKl-Ta-RtQ" customClass="CustomDatePicker" customModule="CardAnimation" customModuleProvider="target">
+                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EKl-Ta-RtQ" customClass="CurrentDatePickerView" customModule="CardAnimation" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="100" width="382" height="179"/>
                                     </pickerView>
                                 </subviews>
                             </stackView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uwq-uL-qo4" customClass="CardView" customModule="CardAnimation" customModuleProvider="target">
+                                <rect key="frame" x="16" y="80" width="382" height="241"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="uwq-uL-qo4" secondAttribute="height" multiplier="1.586:1" id="zOx-Wn-DvA"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="uwq-uL-qo4" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-16" id="9Rj-5z-9OQ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Ymd-VM-Q1V" secondAttribute="trailing" constant="16" id="A4K-w0-0gY"/>
                             <constraint firstItem="EKl-Ta-RtQ" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.2" id="W5w-mT-SYT"/>
+                            <constraint firstItem="uwq-uL-qo4" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="36" id="hGa-xL-Pis"/>
                             <constraint firstItem="Ymd-VM-Q1V" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="heb-N7-SUd"/>
+                            <constraint firstItem="uwq-uL-qo4" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="wgd-vK-ITo"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Ymd-VM-Q1V" secondAttribute="bottom" constant="16" id="xeK-mv-lNw"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="cardHolderNameTextField" destination="ypw-TS-EXU" id="4db-KU-wSd"/>
                         <outlet property="cardNumberTextField" destination="3D6-Mn-hdM" id="oPM-kP-bHL"/>
+                        <outlet property="cardView" destination="uwq-uL-qo4" id="Tr5-1L-YH3"/>
                         <outlet property="cvvTextField" destination="P26-WK-41b" id="weU-OW-qCt"/>
                         <outlet property="expirationDatePicker" destination="EKl-Ta-RtQ" id="LqG-iH-4IX"/>
                     </connections>

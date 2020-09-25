@@ -7,15 +7,15 @@
 
 import UIKit
 
-protocol CustomDatePickerDelegate: AnyObject {
+protocol CurrentDatePickerViewDelegate: AnyObject {
     func selectionChanged(_ newDate: Date)
 }
 
-class CustomDatePicker: UIPickerView {
+class CurrentDatePickerView: UIPickerView {
     let year: Int
     let month: Int
     
-    weak var newDelegate: CustomDatePickerDelegate?
+    weak var newDelegate: CurrentDatePickerViewDelegate?
     
     override init(frame: CGRect) {
         let date = Self.getDate()
@@ -56,7 +56,7 @@ class CustomDatePicker: UIPickerView {
     }
 }
 
-extension CustomDatePicker: UIPickerViewDataSource, UIPickerViewDelegate {
+extension CurrentDatePickerView: UIPickerViewDataSource, UIPickerViewDelegate {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         2
     }
